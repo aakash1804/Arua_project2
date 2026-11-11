@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "AURA Restaurant Table Booking System",
+    "_postman_id": "c71a3964-b918-4903-b1d6-44c1a4dbfa92",
+    "description": "Production Postman collection for AURA microservices suite",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Customer Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@tableprime.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": "http://localhost:8080/api/auth/login"
+          }
+        },
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@tableprime.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": "http://localhost:8080/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Restaurants",
+      "item": [
+        {
+          "name": "Search Restaurants",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/restaurants?search=French&minRating=4.5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "restaurants"],
+              "query": [
+                {"key": "search", "value": "French"},
+                {"key": "minRating", "value": "4.5"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Restaurant By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/restaurants/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Table Booking",
+      "item": [
+        {
+          "name": "Create Table Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{jwt_token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 2,\n  \"customerName\": \"Eleanor Vance\",\n  \"customerEmail\": \"customer@tableprime.com\",\n  \"customerPhone\": \"+1 (555) 234-5678\",\n  \"restaurantId\": 1,\n  \"restaurantName\": \"L'Étoile Dorée\",\n  \"tableId\": 102,\n  \"tableNumber\": \"T-02\",\n  \"zone\": \"Romantic Window\",\n  \"bookingDate\": \"2026-11-20\",\n  \"bookingTime\": \"19:30:00\",\n  \"guestCount\": 2,\n  \"specialRequests\": \"Window table for anniversary\"\n}"
+            },
+            "url": "http://localhost:8080/api/bookings"
+          }
+        },
+        {
+          "name": "Get My Bookings",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/bookings/my-bookings?userId=2"
+          }
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "PUT",
+            "url": "http://localhost:8080/api/bookings/1/cancel?reason=Schedule%20change"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Admin Operations",
+      "item": [
+        {
+          "name": "Get Executive Dashboard KPIs",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/admin/dashboard"
+          }
+        },
+        {
+          "name": "Get Master Reservations",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/admin/bookings"
+          }
+        }
+      ]
+    }
+  ]
+}
+
